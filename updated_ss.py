@@ -18,7 +18,7 @@ conversation_history = []
 
 print(f"\n{Fore.CYAN}Hello Agent {user_name}")
 print("Please Enter a sentence and I will analyze the sentence with TextBlob and give you the sentiment type.")
-print(f"Type{Fore.YELLOW}'reset'{Fore.CYAN}, {Fore.YELLOW}'history'{Fore.CYAN}, {Fore.YELLOW}'exit'{Fore.CYAN} to quit.\n")
+print(f"Type{Fore.YELLOW}'reset'{Fore.CYAN}, {Fore.YELLOW}'history'{Fore.CYAN}, {Fore.YELLOW}'stats'{Fore.CYAN}, {Fore.YELLOW}'exit'{Fore.CYAN} to quit.\n")
 
 while True:
     user_input = input(f"{Fore.GREEN}>> {Style.RESET_ALL}").strip()
@@ -26,14 +26,36 @@ while True:
         print(f"{Fore.RED}Please enter some text or a valid command.{Style.RESET_ALL}")
         continue
 
-
     # Check for commands
     if user_input.lower() == "exit":
         print(f"{Fore.BLUE}🕶️ 🧥Exiting. Farewell Agent {user_name}.🏁{Style.RESET_ALL}")
+        if conversation_history:
+            total = len(conversation_history)
+            pos = sum(1 for _, _, s in conversation_history if s == "positive")
+            neg = sum(1 for _, _, s in conversation_history if s == "negative")
+            neu = sum(1 for _, _, s in conversation_history if s == "neutral")
+            print(f"{Fore.CYAN}Final setiment report.{Style.RESET_ALL}")
+            print(f"{Fore.MAGENTA}📃Total statements analyzed: {total}{Style.RESET_ALL}")
+            print(f"{Fore.GREEN}Positive: {pos}{Style.RESET_ALL}")
+            print(f"{Fore.RED}Negative: {neg}{Style.RESET_ALL}")
+            print(f"{Fore.YELLOW}Neutral: {neu}{Style.RESET_ALL}")
         break
     elif user_input.lower() == 'reset':
         conversation_history.clear()
         print(f"{Fore.CYAN}📪All conversation history cleared. {Style.RESET_ALL}")
+        continue
+    elif user_input.lower() == 'stats':
+        if not conversation_history:
+            print(f"{Fore.CYAN}No stats to show yet.{Style.RESET_ALL}")
+        else:
+            pos = sum(1 for _, _, s in conversation_history if s == "Positive")
+            neg = sum(1 for _, _, s in conversation_history if s == "Negative")
+            neu = sum(1 for _, _, s in conversation_history if s == "Neutral")
+
+            print(f"{Fore.CYAN}📊Sentiment Stats:{Style.RESET_ALL}")
+            print(f"{Fore.GREEN}Positive: {pos}{Style.RESET_ALL}")
+            print(f"{Fore.RED}Negative: {neg}{Style.RESET_ALL}")
+            print(f"{Fore.YELLOW}Neutral: {neu}{Style.RESET_ALL}")
         continue
     elif user_input.lower() == 'history':
         if not conversation_history:
